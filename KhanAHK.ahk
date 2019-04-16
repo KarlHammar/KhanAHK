@@ -1,40 +1,38 @@
 ;global coordMode
 coordMode,pixel
-;Translatebox coords
-XstartTranslatebox=1500
-XendTranslatebox=2160
-YstartTranslatebox=200
-YendTranslatebox=2000
 ;Faster clicks
 setmousedelay -1 ;This is gold :DD
-;Stringbox coords
-XstartTranslateboxStringbox=0
-XendTranslateboxStringbox=1000
-YstartTranslateboxStringbox=200
-YendTranslateboxStringbox=2200
+;Translatebox (right window) coords
+XstartTranslatebox=1800
+XendTranslatebox=2160
+YstartTranslatebox=300
+YendTranslatebox=1400
+;Stringbox (Left window) coords
+XstartStringbox=0
+XendStringbox=1000
+YstartStringbox=200
+YendStringbox=1400
 ;when to scroll
 YscrolldownTreshold = 1000
 YscrollupTreshold = 620
 ;how much to scroll
-scrollValue = 2
+scrollValue = 3
 
- 
-  
 ;TODO
-;include corner finding script here to find perfect search boxes
-;fix all searchboxes and click offsets manually
 ;functionalize
 
+/* (for testing search boxes)
 !t::
 coordMode,pixel
-MouseMove, XstartTranslatebox, YstartTranslatebox
+MouseMove, XstartStringbox, YstartStringbox
 sleep, 2000 ;(wait 2 seconds)
-MouseMove, XendTranslatebox, YstartTranslatebox
+MouseMove, XendStringbox, YstartStringbox
 sleep, 2000 ;(wait 2 seconds)
-MouseMove, XendTranslatebox, YendTranslatebox
+MouseMove, XendStringbox, YendStringbox
 sleep, 2000 ;(wait 2 seconds)
-MouseMove, XstartTranslatebox, YendTranslatebox
+MouseMove, XstartStringbox, YendStringbox
 sleep, 2000 ;(wait 2 seconds)
+*/
 
 ;Upvote top string
 Alt::
@@ -45,6 +43,20 @@ if ErrorLevel = 2 ; If already upvoted, do not upvote next string
 else if ErrorLevel = 1
 {
 	ImageSearch,ix,iy,XstartTranslatebox,YstartTranslatebox,XendTranslatebox,YendTranslatebox,%A_ScriptDir%\pictures\upvote.bmp
+	MouseClick, left,  ix+20, iy+20
+	MouseMove, XposStart, YposStart
+}
+return
+
+;Downvote top string
+!-::
+MouseGetPos, XposStart, YposStart
+ImageSearch,ix,iy,XstartTranslatebox,YstartTranslatebox,XendTranslatebox,YendTranslatebox,%A_ScriptDir%\pictures\alreadydisliked.bmp
+if ErrorLevel = 2 ; If already upvoted, do not upvote next string
+    MsgBox Could not conduct the search.
+else if ErrorLevel = 1
+{
+	ImageSearch,ix,iy,XstartTranslatebox,YstartTranslatebox,XendTranslatebox,YendTranslatebox,%A_ScriptDir%\pictures\downvote.bmp
 	MouseClick, left,  ix+20, iy+20
 	MouseMove, XposStart, YposStart
 }
@@ -70,7 +82,7 @@ return
 !n::
 MouseGetPos, XposStart, YposStart
 ; If at approved
-ImageSearch,ix,iy,XstartTranslateboxStringbox,YstartTranslateboxStringbox,XendTranslateboxStringbox,YendTranslateboxStringbox,%A_ScriptDir%\pictures\greenbottomcorner.bmp ; green corner
+ImageSearch,ix,iy,XstartStringbox,YstartStringbox,XendStringbox,YendStringbox,%A_ScriptDir%\pictures\greenbottomcorner.bmp ; green corner
 if ErrorLevel = 2 ; Green corner not found
 {
 	MsgBox Other error (probably filepath)
@@ -82,19 +94,19 @@ If ErrorLevel = 1
 if ErrorLevel = 0
 {
 	;MsgBox found green corner
-	ImageSearch,ixgreen,iygreen,XstartTranslateboxStringbox,iy+20,XendTranslateboxStringbox,YendTranslateboxStringbox,%A_ScriptDir%\pictures\greencolor.bmp ; next green
+	ImageSearch,ixgreen,iygreen,XstartStringbox,iy+20,XendStringbox,YendStringbox,%A_ScriptDir%\pictures\greencolor.bmp ; next green
 	If ErrorLevel = 1
 	{
 		;MsgBox could not find green color
 		iygreen = 10000
 	}
-	ImageSearch,ixblue,iyblue,XstartTranslateboxStringbox,iy+20,XendTranslateboxStringbox,YendTranslateboxStringbox,%A_ScriptDir%\pictures\bluecolor.bmp ; next blue
+	ImageSearch,ixblue,iyblue,XstartStringbox,iy+20,XendStringbox,YendStringbox,%A_ScriptDir%\pictures\bluecolor.bmp ; next blue
 	If ErrorLevel = 1
 	{
 		;MsgBox could not find blue color
 		iyblue = 10000
 	}
-	ImageSearch,ixred,iyred,XstartTranslateboxStringbox,iy+20,XendTranslateboxStringbox,YendTranslateboxStringbox,%A_ScriptDir%\pictures\redcolor.bmp ; next red
+	ImageSearch,ixred,iyred,XstartStringbox,iy+20,XendStringbox,YendStringbox,%A_ScriptDir%\pictures\redcolor.bmp ; next red
 	If ErrorLevel = 1
 	{
 		;MsgBox could not find red color
@@ -141,7 +153,7 @@ if ErrorLevel = 0
 	return
 }
 ; If at translated
-ImageSearch,ix,iy,XstartTranslateboxStringbox,YstartTranslateboxStringbox,XendTranslateboxStringbox,YendTranslateboxStringbox,%A_ScriptDir%\pictures\bluebottomcorner.bmp ; blue corner
+ImageSearch,ix,iy,XstartStringbox,YstartStringbox,XendStringbox,YendStringbox,%A_ScriptDir%\pictures\bluebottomcorner.bmp ; blue corner
 if ErrorLevel = 2 ; Blue corner not found
 {
 	MsgBox Other error (probably filepath)
@@ -153,19 +165,19 @@ If ErrorLevel = 1
 if ErrorLevel = 0
 {
 	;MsgBox found blue corner
-	ImageSearch,ixgreen,iygreen,XstartTranslateboxStringbox,iy+20,XendTranslateboxStringbox,YendTranslateboxStringbox,%A_ScriptDir%\pictures\greencolor.bmp ; next green
+	ImageSearch,ixgreen,iygreen,XstartStringbox,iy+20,XendStringbox,YendStringbox,%A_ScriptDir%\pictures\greencolor.bmp ; next green
 	If ErrorLevel = 1
 	{
 		;MsgBox could not find green color
 		iygreen = 10000
 	}
-	ImageSearch,ixblue,iyblue,XstartTranslateboxStringbox,iy+20,XendTranslateboxStringbox,YendTranslateboxStringbox,%A_ScriptDir%\pictures\bluecolor.bmp ; next blue
+	ImageSearch,ixblue,iyblue,XstartStringbox,iy+20,XendStringbox,YendStringbox,%A_ScriptDir%\pictures\bluecolor.bmp ; next blue
 	If ErrorLevel = 1
 	{
 		;MsgBox could not find blue color
 		iyblue = 10000
 	}
-	ImageSearch,ixred,iyred,XstartTranslateboxStringbox,iy+20,XendTranslateboxStringbox,YendTranslateboxStringbox,%A_ScriptDir%\pictures\redcolor.bmp ; next red
+	ImageSearch,ixred,iyred,XstartStringbox,iy+20,XendStringbox,YendStringbox,%A_ScriptDir%\pictures\redcolor.bmp ; next red
 	If ErrorLevel = 1
 	{
 		;MsgBox could not find red color
@@ -212,7 +224,7 @@ if ErrorLevel = 0
 	return
 }
 ; If at untranslated
-ImageSearch,ix,iy,XstartTranslateboxStringbox,YstartTranslateboxStringbox,XendTranslateboxStringbox,YendTranslateboxStringbox,%A_ScriptDir%\pictures\redbottomcorner.bmp ; red corner
+ImageSearch,ix,iy,XstartStringbox,YstartStringbox,XendStringbox,YendStringbox,%A_ScriptDir%\pictures\redbottomcorner.bmp ; red corner
 if ErrorLevel = 2 ; Red corner not found
 {
 	MsgBox Other error (probably filepath)
@@ -226,19 +238,19 @@ If ErrorLevel = 1
 if ErrorLevel = 0
 {
 	;MsgBox found red corner
-	ImageSearch,ixgreen,iygreen,XstartTranslateboxStringbox,iy+20,XendTranslateboxStringbox,YendTranslateboxStringbox,%A_ScriptDir%\pictures\greencolor.bmp ; next green
+	ImageSearch,ixgreen,iygreen,XstartStringbox,iy+20,XendStringbox,YendStringbox,%A_ScriptDir%\pictures\greencolor.bmp ; next green
 	If ErrorLevel = 1
 	{
 		;MsgBox could not find green color
 		iygreen = 10000
 	}
-	ImageSearch,ixblue,iyblue,XstartTranslateboxStringbox,iy+20,XendTranslateboxStringbox,YendTranslateboxStringbox,%A_ScriptDir%\pictures\bluecolor.bmp ; next blue
+	ImageSearch,ixblue,iyblue,XstartStringbox,iy+20,XendStringbox,YendStringbox,%A_ScriptDir%\pictures\bluecolor.bmp ; next blue
 	If ErrorLevel = 1
 	{
 		;MsgBox could not find blue color
 		iyblue = 10000
 	}
-	ImageSearch,ixred,iyred,XstartTranslateboxStringbox,iy+20,XendTranslateboxStringbox,YendTranslateboxStringbox,%A_ScriptDir%\pictures\redcolor.bmp ; next red
+	ImageSearch,ixred,iyred,XstartStringbox,iy+20,XendStringbox,YendStringbox,%A_ScriptDir%\pictures\redcolor.bmp ; next red
 	If ErrorLevel = 1
 	{
 		;MsgBox could not find red color
@@ -291,7 +303,7 @@ return
 !b::
 MouseGetPos, XposStart, YposStart
 ; If at approved
-ImageSearch,ix,iy,XstartTranslateboxStringbox,YstartTranslateboxStringbox,XendTranslateboxStringbox,YendTranslateboxStringbox,%A_ScriptDir%\pictures\greentopcorner.bmp ; green corner
+ImageSearch,ix,iy,XstartStringbox,YstartStringbox,XendStringbox,YendStringbox,%A_ScriptDir%\pictures\greentopcorner.bmp ; green corner
 if ErrorLevel = 2 ; Green corner not found
 {
 	MsgBox Other error (probably filepath)
@@ -306,10 +318,10 @@ if ErrorLevel = 0
 	ErrorLevel = 0
 	tempx = 0 ;store respective x
 	tempy = 0 ;store largest found y
-	iygreen = %YstartTranslateboxStringbox%
+	iygreen = %YstartStringbox%
 	while (ErrorLevel = 0)
 	{
-		ImageSearch,ixgreen,iygreen,XstartTranslateboxStringbox,iygreen+30,XendTranslateboxStringbox,iy-20,%A_ScriptDir%\pictures\greencolorcorner.bmp ; previous green
+		ImageSearch,ixgreen,iygreen,XstartStringbox,iygreen+30,XendStringbox,iy-20,%A_ScriptDir%\pictures\greencolorcorner.bmp ; previous green
 		;MsgBox %iygreen%
 		If !iygreen
 		{
@@ -329,10 +341,10 @@ if ErrorLevel = 0
 	ErrorLevel = 0
 	tempx = 0 ;store respective x
 	tempy = 0 ;store largest found y
-	iyblue = %YstartTranslateboxStringbox%
+	iyblue = %YstartStringbox%
 	while (ErrorLevel = 0)
 	{
-		ImageSearch,ixblue,iyblue,XstartTranslateboxStringbox,iyblue+30,XendTranslateboxStringbox,iy-20,%A_ScriptDir%\pictures\bluecolorcorner.bmp ; previous blue
+		ImageSearch,ixblue,iyblue,XstartStringbox,iyblue+30,XendStringbox,iy-20,%A_ScriptDir%\pictures\bluecolorcorner.bmp ; previous blue
 		;MsgBox %iyblue%
 		If !iyblue
 		{
@@ -352,10 +364,10 @@ if ErrorLevel = 0
 	ErrorLevel = 0
 	tempx = 0 ;store respective x
 	tempy = 0 ;store largest found y
-	iyred = %YstartTranslateboxStringbox%
+	iyred = %YstartStringbox%
 	while (ErrorLevel = 0)
 	{
-		ImageSearch,ixred,iyred,XstartTranslateboxStringbox,iyred+30,XendTranslateboxStringbox,iy-20,%A_ScriptDir%\pictures\redcolorcorner.bmp ; previous red
+		ImageSearch,ixred,iyred,XstartStringbox,iyred+30,XendStringbox,iy-20,%A_ScriptDir%\pictures\redcolorcorner.bmp ; previous red
 		;MsgBox %iyred%
 		If !iyred
 		{
@@ -414,7 +426,7 @@ if ErrorLevel = 0
 	return
 }
 ; If at translated
-ImageSearch,ix,iy,XstartTranslateboxStringbox,YstartTranslateboxStringbox,XendTranslateboxStringbox,YendTranslateboxStringbox,%A_ScriptDir%\pictures\bluebottomcorner.bmp ; blue corner
+ImageSearch,ix,iy,XstartStringbox,YstartStringbox,XendStringbox,YendStringbox,%A_ScriptDir%\pictures\bluebottomcorner.bmp ; blue corner
 if ErrorLevel = 2 ; Blue corner not found
 {
 	MsgBox Other error (probably filepath)
@@ -429,10 +441,10 @@ if ErrorLevel = 0
 	ErrorLevel = 0
 	tempx = 0 ;store respective x
 	tempy = 0 ;store largest found y
-	iygreen = %YstartTranslateboxStringbox%
+	iygreen = %YstartStringbox%
 	while (ErrorLevel = 0)
 	{
-		ImageSearch,ixgreen,iygreen,XstartTranslateboxStringbox,iygreen+30,XendTranslateboxStringbox,iy-20,%A_ScriptDir%\pictures\greencolorcorner.bmp ; previous green
+		ImageSearch,ixgreen,iygreen,XstartStringbox,iygreen+30,XendStringbox,iy-20,%A_ScriptDir%\pictures\greencolorcorner.bmp ; previous green
 		;MsgBox %iygreen%
 		If !iygreen
 		{
@@ -452,10 +464,10 @@ if ErrorLevel = 0
 	ErrorLevel = 0
 	tempx = 0 ;store respective x
 	tempy = 0 ;store largest found y
-	iyblue = %YstartTranslateboxStringbox%
+	iyblue = %YstartStringbox%
 	while (ErrorLevel = 0)
 	{
-		ImageSearch,ixblue,iyblue,XstartTranslateboxStringbox,iyblue+30,XendTranslateboxStringbox,iy-20,%A_ScriptDir%\pictures\bluecolorcorner.bmp ; previous blue
+		ImageSearch,ixblue,iyblue,XstartStringbox,iyblue+30,XendStringbox,iy-20,%A_ScriptDir%\pictures\bluecolorcorner.bmp ; previous blue
 		;MsgBox %iyblue%
 		If !iyblue
 		{
@@ -475,10 +487,10 @@ if ErrorLevel = 0
 	ErrorLevel = 0
 	tempx = 0 ;store respective x
 	tempy = 0 ;store largest found y
-	iyred = %YstartTranslateboxStringbox%
+	iyred = %YstartStringbox%
 	while (ErrorLevel = 0)
 	{
-		ImageSearch,ixred,iyred,XstartTranslateboxStringbox,iyred+30,XendTranslateboxStringbox,iy-20,%A_ScriptDir%\pictures\redcolorcorner.bmp ; previous red
+		ImageSearch,ixred,iyred,XstartStringbox,iyred+30,XendStringbox,iy-20,%A_ScriptDir%\pictures\redcolorcorner.bmp ; previous red
 		;MsgBox %iyred%
 		If !iyred
 		{
@@ -537,7 +549,7 @@ if ErrorLevel = 0
 	return
 }
 ; If at untranslated
-ImageSearch,ix,iy,XstartTranslateboxStringbox,YstartTranslateboxStringbox,XendTranslateboxStringbox,YendTranslateboxStringbox,%A_ScriptDir%\pictures\redbottomcorner.bmp ; red corner
+ImageSearch,ix,iy,XstartStringbox,YstartStringbox,XendStringbox,YendStringbox,%A_ScriptDir%\pictures\redbottomcorner.bmp ; red corner
 if ErrorLevel = 2 ; Red corner not found
 {
 	MsgBox Other error (probably filepath)
@@ -554,10 +566,10 @@ if ErrorLevel = 0
 	ErrorLevel = 0
 	tempx = 0 ;store respective x
 	tempy = 0 ;store largest found y
-	iygreen = %YstartTranslateboxStringbox%
+	iygreen = %YstartStringbox%
 	while (ErrorLevel = 0)
 	{
-		ImageSearch,ixgreen,iygreen,XstartTranslateboxStringbox,iygreen+30,XendTranslateboxStringbox,iy-20,%A_ScriptDir%\pictures\greencolorcorner.bmp ; previous green
+		ImageSearch,ixgreen,iygreen,XstartStringbox,iygreen+30,XendStringbox,iy-20,%A_ScriptDir%\pictures\greencolorcorner.bmp ; previous green
 		;MsgBox %iygreen%
 		If !iygreen
 		{
@@ -577,10 +589,10 @@ if ErrorLevel = 0
 	ErrorLevel = 0
 	tempx = 0 ;store respective x
 	tempy = 0 ;store largest found y
-	iyblue = %YstartTranslateboxStringbox%
+	iyblue = %YstartStringbox%
 	while (ErrorLevel = 0)
 	{
-		ImageSearch,ixblue,iyblue,XstartTranslateboxStringbox,iyblue+30,XendTranslateboxStringbox,iy-20,%A_ScriptDir%\pictures\bluecolorcorner.bmp ; previous blue
+		ImageSearch,ixblue,iyblue,XstartStringbox,iyblue+30,XendStringbox,iy-20,%A_ScriptDir%\pictures\bluecolorcorner.bmp ; previous blue
 		;MsgBox %iyblue%
 		If !iyblue
 		{
@@ -600,10 +612,10 @@ if ErrorLevel = 0
 	ErrorLevel = 0
 	tempx = 0 ;store respective x
 	tempy = 0 ;store largest found y
-	iyred = %YstartTranslateboxStringbox%
+	iyred = %YstartStringbox%
 	while (ErrorLevel = 0)
 	{
-		ImageSearch,ixred,iyred,XstartTranslateboxStringbox,iyred+30,XendTranslateboxStringbox,iy-20,%A_ScriptDir%\pictures\redcolorcorner.bmp ; previous red
+		ImageSearch,ixred,iyred,XstartStringbox,iyred+30,XendStringbox,iy-20,%A_ScriptDir%\pictures\redcolorcorner.bmp ; previous red
 		;MsgBox %iyred%
 		If !iyred
 		{
