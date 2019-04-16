@@ -18,7 +18,7 @@ YscrollupTreshold = 620
 ;how much to scroll
 scrollValue = 2
 
-
+ 
   
 ;TODO
 ;include corner finding script here to find perfect search boxes
