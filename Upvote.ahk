@@ -19,7 +19,7 @@ YscrollupTreshold = 620
 scrollValue = 2
 
 
- 
+  
 ;TODO
 ;include corner finding script here to find perfect search boxes
 ;fix all searchboxes and click offsets manually
