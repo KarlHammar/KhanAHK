@@ -72,7 +72,7 @@ If !ix2 ; == Failed search
 	;MsgBox could not find short string, looking for long instead
 	ImageSearch,ix2,iy2,XstartTranslatebox,YstartTranslatebox,XendTranslatebox,YendTranslatebox,%A_ScriptDir%\pictures\saveLongstring.bmp
 } ;For some reason the save button image looks different for long strings, do in case the first search fails
-MsgBox %ix2% and %iy2%
+;MsgBox %ix2% and %iy2%
 MouseClick, left,  ix2+40, iy2+40
 MouseMove, XposStart, YposStart
 return
