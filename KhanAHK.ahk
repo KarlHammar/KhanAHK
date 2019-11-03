@@ -43,6 +43,7 @@ if ErrorLevel = 2 ; If already upvoted, do not upvote next string
 else if ErrorLevel = 1
 {
 	ImageSearch,ix,iy,XstartTranslatebox,YstartTranslatebox,XendTranslatebox,YendTranslatebox,%A_ScriptDir%\pictures\upvote.bmp
+	MsgBox %ErrorLevel%
 	MouseClick, left,  ix+20, iy+20
 	MouseMove, XposStart, YposStart
 }
